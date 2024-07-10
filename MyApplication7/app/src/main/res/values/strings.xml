@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Uni Trade</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="welcome_to_unitrade">Welcome to UniTrade</string>
+    <string name="full_name">Full Name</string>
+    <string name="student_id">Student ID</string>
+    <string name="email">Email</string>
+    <string name="Password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_have_an_account_log_in_here">Already have an account? Log in here</string>
+    <string name="password">Password</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="todo">TODO</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="emailreset">Email</string>
+    <string name="todoo">TODO</string>
+    <string name="title_activity_navigationpage">navigationpage</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="my_posts">My posts</string>
+    <string name="add_new_post">Add new post</string>
+    <string name="username">username</string>
+    <string name="useremail">\n</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="search_yours">Search Yours</string>
+    <string name="add_picture_from_gallery">Add picture from gallery</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_description">Product Description</string>
+    <string name="product_price">Product price</string>
+    <string name="add_product">Add product</string>
+    <string name="forget_password_click_to_reset_password">Forget Password? Click to reset password</string>
+    <string name="register_account">Register Account</string>
+    <string name="delete_my_account">Delete my account</string>
+    <string name="product_Name">Product Name</string>
+    <string name="price_tk">Price:TK</string>
+</resources>

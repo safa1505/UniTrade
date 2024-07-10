@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context=".register">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="398dp"
+        android:layout_height="249dp"
+        android:layout_marginBottom="540dp"
+        android:background="@drawable/image2" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="366dp"
+        android:layout_height="434dp"
+        android:background="#81B67D78"
+         android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:padding="24dp">
+
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/sign_up"
+            android:textAlignment="center"
+            android:textColor="#433939"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/studentname"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit"
+            android:elevation="10dp"
+            android:hint="Student Name"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textStyle="italic" />
+
+        <EditText
+            android:id="@+id/studentid"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit"
+            android:elevation="10dp"
+            android:hint="Student ID"
+            android:padding="10dp"
+            android:textStyle="italic" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit"
+            android:elevation="10dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textStyle="italic" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit"
+            android:elevation="10dp"
+            android:hint="@string/password"
+            android:inputType="textVisiblePassword"
+            android:padding="10dp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/createtext"
+            android:layout_width="286dp"
+            android:layout_height="86dp"
+            android:layout_marginTop="9dp"
+            android:clickable="true"
+            android:text="@string/already_have_an_account_log_in_here"
+            android:textColor="#4A3838"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/linearLayout">
+
+        <Button
+            android:id="@+id/registerbtn"
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button_new"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Register"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+

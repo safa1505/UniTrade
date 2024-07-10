@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/main">
+
+    <ImageView
+        android:id="@+id/detail_Image"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:background="#9F5454"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_menu_camera"/>
+
+    <TextView
+        android:id="@+id/detail_ProductName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Name"
+        android:layout_marginTop="30dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#E8502929"
+        android:padding="16dp"
+        android:layout_below="@id/detail_Image"/>
+
+    <TextView
+        android:id="@+id/detail_productDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Product Description"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:textColor="#E8502929"
+        android:padding="16dp"
+        android:layout_below="@id/detail_ProductName"/>
+
+    <TextView
+        android:id="@+id/detail_productprice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Product Price"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textColor="#E8502929"
+        android:padding="16dp"
+        android:layout_below="@id/detail_productDescription"/>
+
+    <Button
+        android:id="@+id/BackButton"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_new"
+        android:layout_below="@+id/detail_productprice"
+        android:text="Go Back"
+        android:textColor="#EDFBFBFB"
+        android:textSize="16sp" />
+
+</LinearLayout>
