@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -48,9 +49,12 @@ public class NewAd extends AppCompatActivity {
     private String productRandKey, downloadImageURl, formattedDate, formattedTime;
     private StorageReference ProductImagestorageReference;
     private ProgressDialog progressDialog;
-    private  FirebaseFirestore fstore;
+    private  FirebaseFirestore fstore,db;
     private FirebaseAuth fauth;
+    private String  userID,productID;
+    private FirebaseUser currentuser;
     DatabaseReference productRef;
+
 
 
     @Override
@@ -66,6 +70,7 @@ public class NewAd extends AppCompatActivity {
 
         ProductImagestorageReference = FirebaseStorage.getInstance().getReference().child("Product Images");
 
+        db=FirebaseFirestore.getInstance();
         fstore = FirebaseFirestore.getInstance();
         fauth=FirebaseAuth.getInstance();
         galleryimage = findViewById(R.id.cameraimageView);
@@ -122,8 +127,14 @@ public class NewAd extends AppCompatActivity {
 
     private void validateproductData() {
         Pdescription = inputproductdescription.getText().toString().trim();
-       Pname = inputproductname.getText().toString().trim();
-         Pprice =inputproductprice.getText().toString().trim();
+        Pname = inputproductname.getText().toString().trim();
+        Pprice =inputproductprice.getText().toString().trim();
+
+        currentuser = FirebaseAuth.getInstance().getCurrentUser();
+        if(currentuser != null)
+        {
+            userID= currentuser.getUid();
+        }
 
         if (imageUri== null) {
             Toast.makeText(this, "Product Image is Mandatory", Toast.LENGTH_SHORT).show();
@@ -135,7 +146,7 @@ public class NewAd extends AppCompatActivity {
             Toast.makeText(this, "Product price is Mandatory", Toast.LENGTH_SHORT).show();
         }
         else {
-            Product product=new Product(Pname,Pprice,Pdescription,downloadImageURl);
+            Product product=new Product(Pname,Pprice,Pdescription,downloadImageURl,userID);
             FirebaseDatabase.getInstance().getReference("Products").child(Pname).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -210,19 +221,6 @@ public class NewAd extends AppCompatActivity {
             }
         });
     }
-
-   /* private void SaveProductInfoToDatabase() {
-
-        /*HashMap<String, Object> productMap = new HashMap<>();
-
-        productMap.put("productId", productRandKey);
-        productMap.put("date", formattedDate);
-        productMap.put("time", formattedTime);
-        productMap.put("productDescription", Pdescription);
-        productMap.put("productName", Pname);
-        productMap.put("productPrice", Pprice);
-        productMap.put("productImage", downloadImageURl);
-        */
 
 }
 

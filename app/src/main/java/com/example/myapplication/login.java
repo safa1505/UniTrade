@@ -34,9 +34,7 @@ public class login extends AppCompatActivity {
     TextView createBtn,forgetpass;
 
     FirebaseAuth mAuth;
-    public  static  final  String Shared_Prefs="SharedPrefs";
 
-    private CheckBox RememberMe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,13 +52,7 @@ public class login extends AppCompatActivity {
         createBtn= findViewById(R.id.createbtn);
         forgetpass=findViewById(R.id.forgetpasstextview);
 
-       // RememberMe= findViewById(R.id.RememberMeChk);
-       // Paper.init(this);
-
         mAuth=FirebaseAuth.getInstance();
-
-
-
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,28 +77,9 @@ public class login extends AppCompatActivity {
         });
     }
 
-    /*private  void CheckBox(){
-
-        SharedPreferences sharedPreferences=getSharedPreferences(Shared_Prefs,MODE_PRIVATE);
-        String check=sharedPreferences.getString("name","");
-    }*/
 
     private void AllowAccessToAccount (final String email, final String password)
     {
-
-       /* SharedPreferences sharedPreferences=getSharedPreferences(Shared_Prefs,MODE_PRIVATE);
-        String check=sharedPreferences.getString("remember_me","");  // Use a descriptive key
-
-        SharedPreferences sharedPreference=getSharedPreferences(Shared_Prefs,MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreference.edit();
-        if (RememberMe.isChecked()) {  // Check if checkbox is checked before storing
-            editor.putString("remember_me","true");
-        } else {
-            //editor.putString("remember_me","f");  // Store empty string if not checked
-        }
-        editor.apply();
-        */
-
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -116,21 +89,11 @@ public class login extends AppCompatActivity {
                     finish();
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Email  doesn't exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Email  is not registered", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-   /* private void handleSuccessfulLogin(String check) {
-        if (check.equals("true")) {
-            Toast.makeText(getApplicationContext(), "Log in successful", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
-            finish();
-        } else {
-            startActivity(new Intent(getApplicationContext(), login.class));
-            finish(); // Optionally, handle login success even if "remember me" is not checked (navigate to same activity but don't skip login screen)
-        }
-        }*/
 }
 

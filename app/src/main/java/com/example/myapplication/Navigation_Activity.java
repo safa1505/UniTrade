@@ -4,6 +4,7 @@ import static java.util.Locale.filter;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +14,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -36,14 +39,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -51,23 +59,23 @@ import java.util.List;
 
 public class Navigation_Activity extends AppCompatActivity {
 
+    TextView navUsername,navUseremail;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
-    private FirebaseAuth firebaseAuth;
-
-    ImageView imageMenu;
-    private ProgressDialog progressDialog;
     private RecyclerView recyclerView;
     List<Product> ProductList;
     private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
-    private FirebaseFirestore firebaseFirestore;
+
     private ValueEventListener valueEventListener;
     private SearchView searchView;
 
-    private DatabaseReference productsRef;
+
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private DocumentReference documentReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +90,9 @@ public class Navigation_Activity extends AppCompatActivity {
         });
 
 
-        progressDialog = new ProgressDialog(this);
+        mAuth=FirebaseAuth.getInstance();
+        currentUser=mAuth.getCurrentUser();
+
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchView);
         drawerLayout = findViewById(R.id.nav_drawer);
@@ -103,7 +113,7 @@ public class Navigation_Activity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
+        mAuth=FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
@@ -122,7 +132,7 @@ public class Navigation_Activity extends AppCompatActivity {
         recyclerView.setAdapter(productAdapter);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Products");
+       databaseReference = FirebaseDatabase.getInstance().getReference("Products");
         valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ProductList.clear();
@@ -133,6 +143,7 @@ public class Navigation_Activity extends AppCompatActivity {
                             ProductList.add(product);
                         }
                     } catch (Exception e) {
+                        Toast.makeText(getApplicationContext(),"Couldn't add product",Toast.LENGTH_SHORT).show();
                         Log.e("ProductAdapter", "Error converting product data: " + e.getMessage());
                     }
                 }
@@ -141,23 +152,20 @@ public class Navigation_Activity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
                 dialog.dismiss();
             }
         });
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 int id = item.getItemId();
                 if (id == R.id.myprofile) {
-                    startActivity(new Intent(getApplicationContext(), EditProfile.class));
-                }
-                else if (id == R.id.myposts) {
-                    startActivity(new Intent(getApplicationContext(), NewAd.class));
+                    startActivity(new Intent(getApplicationContext(), User_Profile.class));
+                } else if (id == R.id.myposts) {
+                    startActivity(new Intent(getApplicationContext(), My_Posts.class));
                 } else if (id == R.id.Wishlist) {
+                    startActivity(new Intent(getApplicationContext(), NewAd.class));
                     Toast.makeText(Navigation_Activity.this, "Facebook", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.logout) {
                     logout();
@@ -167,6 +175,42 @@ public class Navigation_Activity extends AppCompatActivity {
                 return false;
             }
         });
+
+        if (currentUser != null) {
+            String userID = currentUser.getUid();
+            documentReference = FirebaseFirestore.getInstance().collection("Users").document(userID);
+            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            DocumentSnapshot document = task.getResult();
+                            String name = document.getString("Name");
+                            String email = document.getString("Email");
+
+                            updateNavigationHeader(name, email);
+                        } else {
+                            Log.d("Firestore", "No user document found");
+                        }
+                    } else {
+                        Log.w("Firestore", "Error getting user document:", task.getException());
+                    }
+                }
+            });
+        } else {
+            Log.d("Auth", "No user currently signed in");
+        }
+    }
+    private void updateNavigationHeader(String name,String email) {
+
+        View headerView = navigationView.getHeaderView(0);
+        if (headerView != null) {
+            navUsername = headerView.findViewById(R.id.profile_name);
+            navUseremail = headerView.findViewById(R.id.profile_email);
+
+            navUsername.setText(currentUser.getDisplayName());
+            navUseremail.setText(currentUser.getEmail());
+        }
     }
 
     private void logout(){
@@ -177,18 +221,33 @@ public class Navigation_Activity extends AppCompatActivity {
     }
 
     private  void Delete_Account() {
-        if (FirebaseAuth.getInstance().getCurrentUser().delete().isSuccessful()) {
-            Toast.makeText(Navigation_Activity.this, "Account deleted successfully", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(Navigation_Activity.this, register.class);
-            startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if (builder!= null) {
+            builder.setTitle("Delete account Parmanently ?").setMessage("Are you sure ?")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(Navigation_Activity.this, "Account deleted", Toast.LENGTH_SHORT).show();
+                                    if (mAuth != null){
+                                        mAuth.signOut();
+                                    startActivity(new Intent(getApplicationContext(), register.class));
+                                    finish();
+                                }
+                            }
+                            });
+                        }
+                    }).setNegativeButton("Cancel", null).create().show();
         }
-        else
-        {
-            Toast.makeText(Navigation_Activity.this, "Couldn't delete account", Toast.LENGTH_SHORT).show();
+        else {
+            Toast.makeText(Navigation_Activity.this, "Account couldn't be deleted", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
+        @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -196,7 +255,4 @@ public class Navigation_Activity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
     }
-
-

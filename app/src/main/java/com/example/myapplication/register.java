@@ -1,21 +1,13 @@
 package com.example.myapplication;
 
-import static android.os.Build.ID;
-import static com.example.myapplication.R.id.password;
-import static com.example.myapplication.R.id.registerbtn;
-import static com.example.myapplication.R.id.studentid;
-import static com.example.myapplication.R.id.studentname;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,20 +26,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.ktx.Firebase;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class register extends AppCompatActivity {
 
@@ -56,15 +38,12 @@ public class register extends AppCompatActivity {
     private Button registerBtn;
     private TextView loginBtn;
     private ProgressDialog progressDialog;
-
     FirebaseFirestore fstore;
     FirebaseUser fuser;
     String userid;
     FirebaseAuth fauth;
-    FirebaseDatabase firebaseDatabase;
 
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -81,13 +60,6 @@ public class register extends AppCompatActivity {
 
         fauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
-
-        if(fauth.getCurrentUser()!=null)
-        {
-            Intent intent=new Intent(register.this, Navigation_Activity.class);
-            startActivity(intent);
-            finish();
-        }
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +89,10 @@ public class register extends AppCompatActivity {
         final String Email = signinemail.getText().toString().trim();
         String Password = signinpass.getText().toString().trim();
 
-        String emailpattern = "^[a-z]{3}_[0-9]{10}@lus\\.ac\\.bd$";
-        //String emailpattern="^[a-zA-Z0-9. _%+-]+@[a-zA-Z0-9. -]+\\\\. [a-zA-Z]{2,}$";
+        String emailpattern = "^(cse|bba|ce|eee)_[0-9]{10}@lus.ac.bd$";
+
+        String passpattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$";
+
 
         if (Email.isEmpty()) {
             signinemail.setError("Email is required");
@@ -126,8 +100,9 @@ public class register extends AppCompatActivity {
             signinemail.setError("Invalid Email");
         } else if (Password.isEmpty()) {
             signinpass.setError("Password is required");
-        } else if (Password.length() < 6) {
-            signinpass.setError("Password must be >= 6 characters");
+        } else if (!Password.matches(passpattern)) {
+            signinpass.setError("Password must be >= 8 characters containing at least one" +
+                    " lowercase letter," + " one uppercase letter, and one digit");
         } else {
             progressDialog.setTitle("Create Account");
             progressDialog.setMessage("Please wait for a moment");
@@ -151,6 +126,7 @@ public class register extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(getApplicationContext(), "Verification link has been sent to your email. Please verify your email...", Toast.LENGTH_SHORT).show();
+                           startActivity(new Intent(getApplicationContext(), login.class));
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -159,34 +135,35 @@ public class register extends AppCompatActivity {
                             }
                         });
                     }
-                    userid=fauth.getCurrentUser().getUid();
-                  DocumentReference documentReference=fstore.collection("Users").document(userid);
-                  HashMap<String, Object> userdataMap = new HashMap<>();
-                  userdataMap.put("Name", Student_Name);
-                  userdataMap.put("ID", ID);
-                  userdataMap.put("Email", Email);
-                  userdataMap.put("Password", Password);
 
-                  documentReference.set(userdataMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                      @Override
-                      public void onSuccess(Void unused) {
-                          Toast.makeText(getApplicationContext(), "User account is created", Toast.LENGTH_SHORT).show();
-                          if(fauth.getCurrentUser().isEmailVerified()){
-                              Toast.makeText(getApplicationContext(), "Verification is successful", Toast.LENGTH_SHORT).show();
-                              startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
-                          }
-                          else {
-                              Toast.makeText(getApplicationContext(), "Please verify your email", Toast.LENGTH_SHORT).show();
-                          }
-                      }
-                  }).addOnFailureListener(new OnFailureListener() {
-                      @Override
-                      public void onFailure(@NonNull Exception e) {
-                          progressDialog.dismiss();
-                          Toast.makeText(register.this, "Failed to save user data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                          Log.e("register", "Error writing user data", task.getException());
-                      }
-                });
+                    userid=fauth.getCurrentUser().getUid();
+                    DocumentReference documentReference=fstore.collection("Users").document(userid);
+                    HashMap<String, Object> userdataMap = new HashMap<>();
+                    userdataMap.put("Name", Student_Name);
+                    userdataMap.put("ID", ID);
+                    userdataMap.put("Email", Email);
+                    userdataMap.put("Password", Password);
+
+                    documentReference.set(userdataMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            if(!fauth.getCurrentUser().isEmailVerified()){
+                                Toast.makeText(getApplicationContext(), "Please verify your email", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(), "Verification is successful", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
+                                finish();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(register.this, "Failed to save user data: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("register", "Error writing user data", task.getException());
+                        }
+                    });
                 }
                 else {
                     Exception e = task.getException();
@@ -197,6 +174,6 @@ public class register extends AppCompatActivity {
                     }
                 }
             }
-            });
-        }
+        });
+    }
 }

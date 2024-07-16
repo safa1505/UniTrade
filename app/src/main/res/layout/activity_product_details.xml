@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/main">
+    android:id="@+id/main"
+    android:background="@drawable/backgroundpic1">
 
     <ImageView
         android:id="@+id/detail_Image"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="200dp"
-        android:background="#9F5454"
         android:scaleType="fitXY"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
@@ -35,8 +35,7 @@
         android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:textColor="#E8502929"
-        android:padding="16dp"
-        android:layout_below="@id/detail_ProductName"/>
+        android:padding="16dp" />
 
     <TextView
         android:id="@+id/detail_productprice"
@@ -47,8 +46,7 @@
         android:layout_marginTop="10dp"
         android:textStyle="bold"
         android:textColor="#E8502929"
-        android:padding="16dp"
-        android:layout_below="@id/detail_productDescription"/>
+        android:padding="16dp" />
 
     <Button
         android:id="@+id/BackButton"
@@ -57,7 +55,6 @@
         android:layout_marginTop="40dp"
         android:layout_gravity="center"
         android:background="@drawable/button_new"
-        android:layout_below="@+id/detail_productprice"
         android:text="Go Back"
         android:textColor="#EDFBFBFB"
         android:textSize="16sp" />

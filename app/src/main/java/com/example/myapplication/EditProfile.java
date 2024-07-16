@@ -104,7 +104,6 @@ public class EditProfile extends AppCompatActivity {
                             Log.d("TAG", "user profile  can't be updated for" + userid);
                         }
                     });
-
                     startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
                     finish();
                 }

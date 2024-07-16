@@ -68,7 +68,6 @@
     </LinearLayout>
 
     <LinearLayout
-        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:orientation="horizontal">
@@ -76,24 +75,27 @@
         <Button
             android:id="@+id/backButton"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
             android:layout_marginStart="45dp"
-            android:layout_marginTop="45dp"
             android:paddingTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_new"
             android:text="Go Back"
-            android:textColor="#ED754C4C"
+            android:textColor="@color/white"
             android:textSize="18sp" />
+
         <Button
             android:id="@+id/addproductbtn"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
             android:layout_marginStart="45dp"
-            android:layout_marginTop="45dp"
-            android:paddingTop="20dp"
+            android:paddingTop="0dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_new"
             android:text="@string/add_product"
-            android:textColor="#ED754C4C"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
     </LinearLayout>

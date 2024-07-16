@@ -27,7 +27,7 @@ public class Splash_Activity extends AppCompatActivity {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
 
-            Intent myIntent = new Intent(Splash_Activity.this, login.class);
+            Intent myIntent = new Intent(Splash_Activity.this, First_page.class);
             startActivity(myIntent);
             finish();
         },1000);
