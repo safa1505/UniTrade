@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".NewAd"
     android:contentDescription="">
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="fitCenter"
-        android:background="#569DDC"
+        android:background="@color/white"
         android:src="@android:drawable/ic_menu_camera"
        android:layout_marginTop="5dp" />
 
@@ -27,59 +27,66 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="5dp"
-        android:background="#E0E0E0">
+        android:background="#180937">
 
         <EditText
         android:id="@+id/productnameadd"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:paddingTop="20dp"
-        android:textColor="#000080"
+            android:background="@drawable/edit"
+            android:elevation="10dp"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:textAlignment="center"
         android:inputType="textMultiLine"
         android:hint="@string/product_name"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="45dp" />
+        />
 
         <EditText
             android:id="@+id/productdescription"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:paddingTop="20dp"
-            android:textColor="#000080"
+            android:textColor="@color/white"
+            android:background="@drawable/edit"
+            android:elevation="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:inputType="textMultiLine"
             android:hint="@string/product_description"
             android:layout_marginTop="25dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp" />
+            />
 
         <EditText
             android:id="@+id/productprice"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="45dp"
+            android:layout_height="50dp"
+            android:background="@drawable/edit"
+            android:elevation="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
             android:hint="@string/product_price"
             android:inputType="textMultiLine"
-            android:paddingTop="25dp"
-            android:textColor="#000080"  />
+            android:paddingTop="20dp"
+            android:textColor="@color/white"  />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp">
 
         <Button
             android:id="@+id/backButton"
-            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="110dp"
             android:layout_height="60dp"
-            android:layout_marginStart="45dp"
-            android:paddingTop="20dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="50dp"
+            android:layout_gravity="center"
             android:background="@drawable/button_new"
             android:text="Go Back"
             android:textColor="@color/white"
@@ -90,9 +97,9 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="110dp"
             android:layout_height="60dp"
-            android:layout_marginStart="45dp"
-            android:paddingTop="0dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="55dp"
+            android:layout_marginRight="40dp"
+            android:layout_gravity="center"
             android:background="@drawable/button_new"
             android:text="@string/add_product"
             android:textColor="@color/white"

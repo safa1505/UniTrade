@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundpic1"
+    android:background="@drawable/background"
     android:id="@+id/main"
     tools:context=".First_page">
 
@@ -14,15 +14,15 @@
         android:layout_width="253dp"
         android:layout_height="72dp"
         android:text="Uni Trade"
-        android:textColor="@color/white"
+        android:textColor="#091F31"
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.885"
+        app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.088" />
+        app:layout_constraintVertical_bias="0.107" />
 
     <ImageView
         android:id="@+id/logo"
@@ -34,22 +34,23 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.255" />
 
     <TextView
         android:id="@+id/welcometext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome Back To Your App !"
-        android:textColor="#37658E"
-        android:textSize="24sp"
+        android:textColor="#091F31"
+        android:textSize="26sp"
         android:textStyle="bold"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.662"
+        app:layout_constraintHorizontal_bias="0.632"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.538" />
+        app:layout_constraintVertical_bias="0.474" />
 
     <Button
         android:id="@+id/LoginID"
@@ -58,14 +59,14 @@
         android:background="@drawable/button_new"
         android:gravity="center"
         android:text="Login"
-        android:textSize="16dp"
         android:textColor="@color/white"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        app:layout_constraintVertical_bias="0.715" />
 
     <Button
         android:id="@+id/SignupID"
@@ -74,14 +75,14 @@
         android:background="@drawable/button_new"
         android:gravity="center"
         android:text="Sign Up"
-        android:textSize="16dp"
         android:textColor="@color/white"
+        android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.927" />
+        app:layout_constraintVertical_bias="0.864" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

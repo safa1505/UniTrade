@@ -84,7 +84,6 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductV
                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                 FirebaseUser user = mAuth.getCurrentUser();
 
-                String userID = user.getUid();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Delete Product Parmanently ?")
@@ -102,7 +101,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductV
                                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                                 dataSnapshot.getRef().removeValue();
                                                 Product product = dataSnapshot.getValue(Product.class);
-                                                if (product != null ) {
+                                                if (product != null) {
                                                     ProductList.remove(product);
                                                     notifyItemRemoved(position);
                                                     Log.d("Deletion", "Product deleted");
@@ -117,8 +116,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductV
                                             dialog.dismiss();
                                         }
                                     });
-                                }
-                                else {
+                                } else {
                                     Log.e("Deletion", "databaseReference is null");
                                 }
                             }
@@ -127,11 +125,9 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductV
                         .create().show();
             }
         });
-
     }
 
-
-        @Override
+    @Override
     public int getItemCount() {
         return ProductList.size();
     }
@@ -151,5 +147,6 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductV
         }
     }
 }
+
 
 

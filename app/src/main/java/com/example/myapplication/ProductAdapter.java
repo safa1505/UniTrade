@@ -60,6 +60,12 @@ public class ProductAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public int getItemCount() {
         return ProductList.size();
     }
+
+    public void searchProductList(ArrayList<Product>searchList)
+    {
+        ProductList=searchList;
+        notifyDataSetChanged();
+    }
 }
      class MyViewHolder extends RecyclerView.ViewHolder {
           TextView recName,recPrice;

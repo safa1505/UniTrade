@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@drawable/backgroundpic1"
+    android:background="@drawable/background"
     tools:context=".User_Profile"
     tools:ignore="HardcodedText">
 
@@ -33,12 +33,12 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="366dp"
-        android:layout_height="300dp"
+        android:layout_height="280dp"
         android:layout_centerVertical="true"
         android:layout_below="@id/profile_icon"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/button"
+        android:layout_marginTop="100dp"
+        android:background="#180937"
         android:orientation="vertical"
         android:padding="24dp">
 
@@ -78,18 +78,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/linearLayout"
-        android:layout_margin="10dp">
+        android:layout_marginTop="50dp">
 
         <ImageView
             android:id="@+id/edit_profile_icon"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="61dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/baseline_edit_24"
-            android:layout_alignParentEnd="true"
-            android:backgroundTint="#3174AF"
-            android:layout_marginEnd="30dp"/>
+            android:backgroundTint="#180937" />
 
     </RelativeLayout>
 </RelativeLayout>

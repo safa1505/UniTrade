@@ -126,7 +126,6 @@ public class register extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(getApplicationContext(), "Verification link has been sent to your email. Please verify your email...", Toast.LENGTH_SHORT).show();
-                           startActivity(new Intent(getApplicationContext(), login.class));
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

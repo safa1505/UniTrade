@@ -20,7 +20,7 @@
         android:layout_height="200dp"
        android:layout_gravity="center_vertical"
         android:gravity="center"
-        android:background="#94C5F1">
+        android:background="@color/white">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/myProduct_imageView"
@@ -42,7 +42,7 @@
              android:layout_marginTop="30dp"
             android:layout_toEndOf="@+id/myProduct_imageView"
              android:textSize="18sp"
-             android:textColor="@color/white"
+             android:textColor="#180937"
              android:textStyle="bold"/>
 
     <TextView
@@ -55,7 +55,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textSize="16sp"
-        android:textColor="@color/white"
+        android:textColor="#180937"
         android:textStyle="normal"/>
 
         <RelativeLayout
@@ -76,7 +76,7 @@
             android:layout_centerVertical="true"
             android:textSize="14sp"
             android:textColor="@color/white"
-            android:background="@drawable/button"/>
+            android:background="#180937"/>
 
         <Button
             android:id="@+id/My_product_delete"
@@ -90,7 +90,7 @@
             android:layout_marginEnd="50dp"
             android:layout_marginStart="60dp"
             android:textColor="@color/white"
-            android:background="@drawable/button"/>
+            android:background="#180937"/>
 
         </RelativeLayout>
     </RelativeLayout>

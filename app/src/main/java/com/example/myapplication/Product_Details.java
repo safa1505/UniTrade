@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 public class Product_Details extends AppCompatActivity {
 
      ImageView detailImage;
-     TextView detail_ProductName, detail_ProductDescription, detail_ProductPrice;
+     TextView detail_ProductName, detail_ProductDescription,detail_ProductPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class Product_Details extends AppCompatActivity {
        detailImage= findViewById(R.id.detail_Image);
         detail_ProductName = findViewById(R.id.detail_ProductName);
         detail_ProductDescription = findViewById(R.id.detail_productDescription);
-        detail_ProductPrice = findViewById(R.id.detail_productprice);
+        detail_ProductPrice = findViewById(R.id.detail_productPrice);
 
 
         Bundle bundle=getIntent().getExtras();

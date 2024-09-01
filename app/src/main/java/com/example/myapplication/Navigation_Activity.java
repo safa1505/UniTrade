@@ -12,12 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -70,9 +74,8 @@ public class Navigation_Activity extends AppCompatActivity {
 
     private ValueEventListener valueEventListener;
     private SearchView searchView;
+    private ProductAdapter productAdapter;
 
-
-    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DocumentReference documentReference;
@@ -90,8 +93,8 @@ public class Navigation_Activity extends AppCompatActivity {
         });
 
 
-        mAuth=FirebaseAuth.getInstance();
-        currentUser=mAuth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchView);
@@ -100,7 +103,7 @@ public class Navigation_Activity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
         }
         setSupportActionBar(toolbar);
 
@@ -113,7 +116,9 @@ public class Navigation_Activity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        searchView = findViewById(R.id.searchView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
@@ -126,13 +131,13 @@ public class Navigation_Activity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        ProductList=new ArrayList<>();
+        ProductList = new ArrayList<>();
 
-        ProductAdapter productAdapter = new ProductAdapter( ProductList, Navigation_Activity.this);
+        productAdapter = new ProductAdapter(ProductList, Navigation_Activity.this);
         recyclerView.setAdapter(productAdapter);
 
 
-       databaseReference = FirebaseDatabase.getInstance().getReference("Products");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Products");
         valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ProductList.clear();
@@ -143,16 +148,30 @@ public class Navigation_Activity extends AppCompatActivity {
                             ProductList.add(product);
                         }
                     } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(),"Couldn't add product",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Couldn't add product", Toast.LENGTH_SHORT).show();
                         Log.e("ProductAdapter", "Error converting product data: " + e.getMessage());
                     }
                 }
                 productAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 dialog.dismiss();
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchlist(newText);
+                return true;
             }
         });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -171,7 +190,15 @@ public class Navigation_Activity extends AppCompatActivity {
                     logout();
                 } else if (id == R.id.delete_account) {
                     Delete_Account();
+                } else if (id==R.id.share) {
+                    final String appname=getPackageName();
+                    Intent intent=new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT,"Check this App\n"+"https://play.google.com/store/apps/details?id"+appname );
+                    intent.setType("text/plain");
+                    startActivity(Intent.createChooser(intent,"Share this App"));
                 }
+
                 return false;
             }
         });
@@ -200,7 +227,48 @@ public class Navigation_Activity extends AppCompatActivity {
         } else {
             Log.d("Auth", "No user currently signed in");
         }
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(Navigation_Activity.this);
+                    alertDialog.setTitle("Exit App ?");
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finishAffinity();
+                        }
+                    });
+                    alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    alertDialog.create().show();
+                }
+            }
+        });
     }
+
+    public void searchlist(String text) {
+        ArrayList<Product> searchList = new ArrayList<>();
+        for (Product product : ProductList) {
+            if (product != null && product.getProductName() != null) {
+                String productName = product.getProductName().toLowerCase();
+                String searchText = text.toLowerCase();
+                if (productName.contains(searchText)) {
+                    searchList.add(product);
+                }
+            }
+        }
+        productAdapter.searchProductList(searchList);
+    }
+
     private void updateNavigationHeader(String name,String email) {
 
         View headerView = navigationView.getHeaderView(0);
@@ -208,8 +276,8 @@ public class Navigation_Activity extends AppCompatActivity {
             navUsername = headerView.findViewById(R.id.profile_name);
             navUseremail = headerView.findViewById(R.id.profile_email);
 
-            navUsername.setText(currentUser.getDisplayName());
-            navUseremail.setText(currentUser.getEmail());
+            navUsername.setText(name);
+            navUseremail.setText(email);
         }
     }
 
@@ -247,12 +315,4 @@ public class Navigation_Activity extends AppCompatActivity {
         }
     }
 
-        @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
     }

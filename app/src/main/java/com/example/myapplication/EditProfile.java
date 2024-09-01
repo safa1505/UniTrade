@@ -3,11 +3,12 @@ package com.example.myapplication;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,27 +18,27 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class EditProfile extends AppCompatActivity {
 
-    private Button updateBtn,BackBtn;
-    private EditText Name, Pass,ID,Email;
+    private Button updateBtn, BackBtn;
+    private EditText Name, Pass, ID, Email;
     private ProgressDialog progressDialog;
+
     String userid;
     FirebaseAuth fauth;
+    FirebaseUser user;
     FirebaseFirestore fstore;
 
     @Override
@@ -54,13 +55,15 @@ public class EditProfile extends AppCompatActivity {
 
         Name = findViewById(R.id.studentname);
         ID = findViewById(R.id.studentid);
-        Email=findViewById(R.id.email);
-        Pass=findViewById(R.id.password);
+        Email = findViewById(R.id.email);
         updateBtn = findViewById(R.id.UpdateProfilebtn);
-        BackBtn =findViewById(R.id.BackButton);
+        BackBtn = findViewById(R.id.BackButton);
+
 
         fauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
+        user = fauth.getCurrentUser();
+        userid = user.getUid();
 
         BackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,42 +75,66 @@ public class EditProfile extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inputdata();
+                   UpdateProfile();
             }
         });
     }
 
-    private String Updatedname, Updatedpass;
-
-    private void inputdata() {
-        Updatedname = Name.getText().toString().trim();
-       Updatedpass= Pass.getText().toString().trim();
-        UpdateProfile();
-    }
-
     private void UpdateProfile() {
 
-                    userid = fauth.getCurrentUser().getUid();
-                    DocumentReference documentReference = fstore.collection("user").document(userid);
-                    HashMap<String, Object> user = new HashMap<>();
-                    user.put("newname", "" + Updatedname);
-                    user.put("newphone", "" + Updatedpass);
+        String uID=fauth.getCurrentUser().getUid();
+        String updatedName=Name.getText().toString().trim();
+        String updatedID=ID.getText().toString().trim();
+        String updatedEmail =Email.getText().toString().trim();
 
-                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d("TAG", "user profile updated for" + userid);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("TAG", "user profile  can't be updated for" + userid);
-                        }
-                    });
-                    startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
-                    finish();
-                }
+        if(updatedName.isEmpty()|| updatedID.isEmpty()|| updatedEmail.isEmpty())
+        {
+            Toast.makeText(this,"Please fill all fields",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Updating profile...");
+        progressDialog.show();
+
+        HashMap<String, Object> useredited = new HashMap<>();
+        useredited.put("Name",updatedName);
+        useredited.put("ID", updatedID);
+        useredited.put("Email", updatedEmail);
+        fstore.collection("Users").document(uID)
+                .set(useredited, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        progressDialog.dismiss();
+                        Toast.makeText(EditProfile.this, "Profile is Updated", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), User_Profile.class));
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(EditProfile.this, "Couldn't edit profile", Toast.LENGTH_SHORT).show();
+                            }
+                            });
+
+                fauth.getCurrentUser().updateEmail(updatedEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(EditProfile.this,"Successfully Updated Email",Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditProfile.this,"Error in updating email",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
+
+    }
+
 
 
 

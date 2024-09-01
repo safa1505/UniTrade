@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/main"
-    android:background="@drawable/backgroundpic1">
+    android:background="@drawable/background">
 
     <ImageView
         android:id="@+id/detail_Image"
@@ -12,7 +12,7 @@
         android:layout_height="200dp"
         android:scaleType="fitXY"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/ic_menu_camera"/>
 
     <TextView
@@ -20,40 +20,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Product Name"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="#E8502929"
-        android:padding="16dp"
-        android:layout_below="@id/detail_Image"/>
+        android:textColor="#222C6D"
+        android:padding="16dp" />
 
     <TextView
         android:id="@+id/detail_productDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Product Description"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:textSize="18sp"
-        android:textColor="#E8502929"
+        android:textColor="#222C6D"
         android:padding="16dp" />
 
     <TextView
-        android:id="@+id/detail_productprice"
+        android:id="@+id/detail_productPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:text="Product Price"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:textStyle="bold"
-        android:textColor="#E8502929"
+        android:textColor="#222C6D"
         android:padding="16dp" />
 
     <Button
         android:id="@+id/BackButton"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_gravity="center"
+        android:layout_marginTop="60dp"
         android:background="@drawable/button_new"
         android:text="Go Back"
         android:textColor="#EDFBFBFB"
