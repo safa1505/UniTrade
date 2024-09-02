@@ -10,17 +10,17 @@
         android:id="@+id/detail_Image"
         android:layout_width="250dp"
         android:layout_height="200dp"
-        android:scaleType="fitXY"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/ic_menu_camera"/>
+        android:layout_marginTop="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_menu_camera" />
 
     <TextView
         android:id="@+id/detail_ProductName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Product Name"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:textSize="24sp"
@@ -58,7 +58,7 @@
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/button_new"
         android:text="Go Back"
         android:textColor="#EDFBFBFB"
