@@ -3,6 +3,8 @@ agp = "8.5.2"
 appcompatVersion = "1.0.0"
 cardview = "1.0.0"
 circleimageview = "3.1.0"
+constraintlayoutCompose = "1.1.0-alpha14"
+constraintlayoutVersion = "2.2.0-alpha14"
 dexter = "6.2.3"
 glide = "4.14.0"
 glideVersion = "4.12.0"
@@ -33,6 +35,8 @@ supportAnnotations = "28.0.0"
 [libraries]
 androidx-appcompat-v100 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
+androidx-constraintlayout-v220alpha14 = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayoutVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
