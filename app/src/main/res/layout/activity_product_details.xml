@@ -4,7 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/main"
-    android:background="@drawable/background">
+    android:background="#CEBFEB">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#2C1C4D"
+        android:text="Product Details"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"/>
 
     <ImageView
         android:id="@+id/detail_Image"
@@ -20,10 +30,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Product Name"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#222C6D"
         android:padding="16dp" />
@@ -33,7 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Product Description"
-        android:layout_marginTop="15dp"
+        android:autoLink="email"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:textSize="18sp"
@@ -46,7 +57,7 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:text="Product Price"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:textStyle="bold"
@@ -58,7 +69,7 @@
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/button_new"
         android:text="Go Back"
         android:textColor="#EDFBFBFB"

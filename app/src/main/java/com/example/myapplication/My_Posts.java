@@ -68,7 +68,6 @@ public class My_Posts extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setView(R.layout.progress_layout);
         AlertDialog dialog = builder.create();
-        dialog.show();
 
 
 
@@ -118,15 +117,17 @@ public class My_Posts extends AppCompatActivity {
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
-
                                             dialog.dismiss();
                                         };
                                     });
                                 } else {
+                                    dialog.dismiss();
                                     Log.d("Firestore", "No user document found");
                                 }
                             } else {
+                                dialog.dismiss();
                                 Log.w("Firestore", "Error getting user document:", task.getException());
+
                             }
                         }
                     });

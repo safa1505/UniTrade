@@ -26,15 +26,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.activity.result.ActivityResultCallback;
@@ -70,6 +67,7 @@ public class NewAd extends AppCompatActivity {
 
         ProductImagestorageReference = FirebaseStorage.getInstance().getReference().child("Product Images");
 
+        productRef=FirebaseDatabase.getInstance().getReference("Products");
         db=FirebaseFirestore.getInstance();
         fstore = FirebaseFirestore.getInstance();
         fauth=FirebaseAuth.getInstance();
@@ -135,6 +133,7 @@ public class NewAd extends AppCompatActivity {
         {
             userID= currentuser.getUid();
         }
+        productID=productRef.push().getKey();
 
         if (imageUri== null) {
             Toast.makeText(this, "Product Image is Mandatory", Toast.LENGTH_SHORT).show();
@@ -146,8 +145,8 @@ public class NewAd extends AppCompatActivity {
             Toast.makeText(this, "Product price is Mandatory", Toast.LENGTH_SHORT).show();
         }
         else {
-            Product product=new Product(Pname,Pprice,Pdescription,downloadImageURl,userID);
-            FirebaseDatabase.getInstance().getReference("Products").child(Pname).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
+            Product product=new Product(Pname,Pprice,Pdescription,downloadImageURl,userID,productID);
+            productRef.child(productID).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {

@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,8 +33,8 @@ public class login extends AppCompatActivity {
     EditText LoginEmail,Loginpass;
     Button loginbtn;
     TextView createBtn,forgetpass;
-
     FirebaseAuth mAuth;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,9 @@ public class login extends AppCompatActivity {
         createBtn= findViewById(R.id.createbtn);
         forgetpass=findViewById(R.id.forgetpasstextview);
 
+
         mAuth=FirebaseAuth.getInstance();
+        firebaseUser=mAuth.getCurrentUser();
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +63,15 @@ public class login extends AppCompatActivity {
             }
         });
 
+        forgetpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),forgetpassword.class));
+            }
+        });
+
         loginbtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 String email = LoginEmail.getText().toString().trim();
@@ -78,18 +89,20 @@ public class login extends AppCompatActivity {
     }
 
 
-    private void AllowAccessToAccount (final String email, final String password)
-    {
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void AllowAccessToAccount (final String email, final String password) {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Log in successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
-                    finish();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Email  is not registered", Toast.LENGTH_SHORT).show();
+                    if (firebaseUser != null ) {
+                        Toast.makeText(getApplicationContext(), "Log in successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Retry", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Incorrect password or email Or check your internet connection please", Toast.LENGTH_SHORT).show();
                 }
             }
         });

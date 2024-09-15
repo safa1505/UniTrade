@@ -59,14 +59,9 @@ public class register extends AppCompatActivity {
 
 
         fauth = FirebaseAuth.getInstance();
+        fuser=fauth.getCurrentUser();
         fstore = FirebaseFirestore.getInstance();
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), login.class));
-            }
-        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -74,6 +69,18 @@ public class register extends AppCompatActivity {
             return insets;
         });
 
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fuser!=null && fuser.isEmailVerified()) {
+                    startActivity(new Intent(getApplicationContext(), login.class));
+                }
+                else {
+                Toast.makeText(getApplicationContext(),"Please verify your Email first",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +133,7 @@ public class register extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(getApplicationContext(), "Verification link has been sent to your email. Please verify your email...", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(register.this,login.class));
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

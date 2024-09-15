@@ -107,8 +107,9 @@ public class EditProfile extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
+
                         Toast.makeText(EditProfile.this, "Profile is Updated", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), User_Profile.class));
+                        startActivity(new Intent(getApplicationContext(), Navigation_Activity.class));
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

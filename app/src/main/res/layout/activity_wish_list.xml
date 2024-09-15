@@ -4,41 +4,25 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    tools:context=".My_Posts">
+    tools:context=".WishList">
 
     <TextView
-        android:id="@+id/MyPosts"
+        android:id="@+id/ProductsDetails"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="#2C1C4D"
-        android:text="My Posts"
+        android:text="My Wishlist"
         android:textAlignment="center"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="24sp"/>
-
+        android:textSize="24sp"
+        />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/MyrecyclerView"
+        android:layout_below="@id/ProductsDetails"
+        android:id="@+id/WishlistrecyclerView"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:layout_below="@id/MyPosts"
         android:scrollbars="vertical"
         android:layout_marginTop="20dp" />
 
-    <LinearLayout
-        android:layout_below="@+id/MyrecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="right"
-        >
-
-    <ImageView
-        android:id="@+id/new_product_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="15dp"
-
-        android:background="@drawable/baseline_add_24"/>
-    </LinearLayout>
 </RelativeLayout>

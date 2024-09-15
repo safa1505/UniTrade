@@ -24,6 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_marginStart="5dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="5dp"
@@ -34,12 +36,11 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:paddingTop="20dp"
             android:background="@drawable/edit"
-            android:elevation="10dp"
+            android:gravity="center_vertical"
         android:textColor="@color/black"
         android:layout_gravity="center"
-        android:textAlignment="center"
+            android:textAlignment="center"
         android:inputType="textMultiLine"
         android:hint="@string/product_name"
         />
@@ -48,8 +49,7 @@
             android:id="@+id/productdescription"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:paddingTop="20dp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:background="@drawable/edit"
             android:elevation="10dp"
             android:layout_gravity="center"
@@ -70,8 +70,7 @@
             android:layout_marginTop="15dp"
             android:hint="@string/product_price"
             android:inputType="textMultiLine"
-            android:paddingTop="20dp"
-            android:textColor="@color/white"  />
+            android:textColor="@color/black"  />
 
     </LinearLayout>
 
@@ -83,7 +82,7 @@
 
         <Button
             android:id="@+id/backButton"
-            android:layout_width="110dp"
+            android:layout_width="120dp"
             android:layout_height="60dp"
             android:layout_marginStart="50dp"
             android:layout_gravity="center"
@@ -94,8 +93,7 @@
 
         <Button
             android:id="@+id/addproductbtn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="110dp"
+            android:layout_width="120dp"
             android:layout_height="60dp"
             android:layout_marginStart="55dp"
             android:layout_marginRight="40dp"

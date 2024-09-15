@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +38,8 @@ import java.util.List;
 public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductViewHolder> {
     private List<Product> ProductList;
     private Context context;
-
     private DatabaseReference databaseReference;
+
 
     public MyPostsAdapter(List<Product> ProductList, Context context) {
 
@@ -67,12 +68,12 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductV
         holder.product_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Product_Update.class);
-                intent.putExtra("Image", ProductList.get(holder.getAdapterPosition()).getProductImage());
-                intent.putExtra("Product Name", ProductList.get(holder.getAdapterPosition()).getProductName());
-                intent.putExtra("Product Description", ProductList.get(holder.getAdapterPosition()).getProductDescription());
-                intent.putExtra("Product Price ", ProductList.get(holder.getAdapterPosition()).getProductPrice());
-
+                Intent intent=new Intent(context, Product_Update.class);
+                intent.putExtra("Product Name", product.getProductName());
+                intent.putExtra("Product Description", product.getProductDescription());
+                intent.putExtra("Product price", product.getProductPrice());
+                intent.putExtra("Product Image",product.getProductImage());
+                intent.putExtra("Product ID",product.getProductID());
                 context.startActivity(intent);
             }
         });
@@ -81,9 +82,6 @@ public class MyPostsAdapter extends RecyclerView.Adapter<MyPostsAdapter.ProductV
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 String name = product.getProductName();
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                FirebaseUser user = mAuth.getCurrentUser();
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Delete Product Parmanently ?")

@@ -1,29 +1,18 @@
 package com.example.myapplication;
 
-import static java.util.Locale.filter;
-
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Adapter;
-import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.window.OnBackInvokedDispatcher;
-
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
-import androidx.activity.OnBackPressedDispatcher;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -36,9 +25,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -49,15 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +56,6 @@ public class Navigation_Activity extends AppCompatActivity {
     private ValueEventListener valueEventListener;
     private SearchView searchView;
     private ProductAdapter productAdapter;
-
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DocumentReference documentReference;
@@ -96,25 +76,23 @@ public class Navigation_Activity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        toolbar = findViewById(R.id.toolbar);
+
+        toolbar = findViewById(R.id.customtoolbar);
         searchView = findViewById(R.id.searchView);
         drawerLayout = findViewById(R.id.nav_drawer);
         navigationView = findViewById(R.id.nav_view);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(true);
-        }
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
-        Window window = getWindow();
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.setDrawerIndicatorEnabled(true);
-
+        toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -132,10 +110,8 @@ public class Navigation_Activity extends AppCompatActivity {
         dialog.show();
 
         ProductList = new ArrayList<>();
-
         productAdapter = new ProductAdapter(ProductList, Navigation_Activity.this);
         recyclerView.setAdapter(productAdapter);
-
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Products");
         valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
@@ -184,8 +160,7 @@ public class Navigation_Activity extends AppCompatActivity {
                 } else if (id == R.id.myposts) {
                     startActivity(new Intent(getApplicationContext(), My_Posts.class));
                 } else if (id == R.id.Wishlist) {
-                    startActivity(new Intent(getApplicationContext(), NewAd.class));
-                    Toast.makeText(Navigation_Activity.this, "Facebook", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), WishList.class));
                 } else if (id == R.id.logout) {
                     logout();
                 } else if (id == R.id.delete_account) {
@@ -197,6 +172,10 @@ public class Navigation_Activity extends AppCompatActivity {
                     intent.putExtra(Intent.EXTRA_TEXT,"Check this App\n"+"https://play.google.com/store/apps/details?id"+appname );
                     intent.setType("text/plain");
                     startActivity(Intent.createChooser(intent,"Share this App"));
+                }
+                else if (id==R.id.changePass)
+                {
+                    startActivity(new Intent(getApplicationContext(), forgetpassword.class));
                 }
 
                 return false;

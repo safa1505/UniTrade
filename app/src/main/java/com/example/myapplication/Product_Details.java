@@ -1,6 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.util.Linkify;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +20,7 @@ import com.bumptech.glide.Glide;
 public class Product_Details extends AppCompatActivity {
 
      ImageView detailImage;
+     Button backbutton;
      TextView detail_ProductName, detail_ProductDescription,detail_ProductPrice;
 
     @Override
@@ -33,16 +38,24 @@ public class Product_Details extends AppCompatActivity {
         detail_ProductName = findViewById(R.id.detail_ProductName);
         detail_ProductDescription = findViewById(R.id.detail_productDescription);
         detail_ProductPrice = findViewById(R.id.detail_productPrice);
+        backbutton=findViewById(R.id.BackButton);
 
+        Intent intent=getIntent();
+        if(intent!=null){
 
-        Bundle bundle=getIntent().getExtras();
-        if(bundle!=null)
-        {
-            detail_ProductName.setText(bundle.getString("Product Name"));
-            detail_ProductDescription.setText(bundle.getString("Product Description"));
-            detail_ProductPrice.setText(bundle.getString("Product Price"));
-            Glide.with(this).load(bundle.getString("Image")).into(detailImage);
+            detail_ProductName.setText(intent.getStringExtra("Product Name"));
+            detail_ProductDescription.setText(intent.getStringExtra("Product Description"));
+            detail_ProductPrice.setText(intent.getStringExtra("Product Price"));
+            Glide.with(this).load(intent.getStringExtra("Image")).into(detailImage);
         }
+
+        Linkify.addLinks(detail_ProductDescription,Linkify.EMAIL_ADDRESSES);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }
 
